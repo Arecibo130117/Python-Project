@@ -85,8 +85,8 @@ def calculate():
     canvas.delete("all")
     canvas.create_line(ox, oy, ox + x1 * scale, oy + y1 * scale, fill="blue", width=5)
     canvas.create_line(ox + x1 * scale, oy + y1 * scale, ox + x2 * scale, oy + y2 * scale, fill="red", width=5)
-    canvas.create_oval(ox + x1 * scale - 10, oy + y1 * scale - 10, ox + x1 * scale + 10, oy + y1 * scale + 10, fill="blue")
-    canvas.create_oval(ox + x2 * scale - 10, oy + y2 * scale - 10, ox + x2 * scale + 10, oy + y2 * scale + 10, fill="red")
+    canvas.create_oval(ox + x1 * scale - m1*10, oy + y1 * scale - m1*10, ox + x1 * scale + m1*10, oy + y1 * scale + m1*10, fill="blue")
+    canvas.create_oval(ox + x2 * scale - m2*10, oy + y2 * scale - m2*10, ox + x2 * scale + m2*10, oy + y2 * scale + m2*10, fill="red")
 
     window.after(1, calculate)
 
