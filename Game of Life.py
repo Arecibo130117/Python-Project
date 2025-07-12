@@ -18,7 +18,7 @@ def draw_grid():
             x2 = x1 + 10
             y2 = y1 + 10
             color = "black" if grid[i][j] == 1 else "white"
-            canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="gray")
+            canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="")
 
 def update_grid():
     global grid
@@ -27,7 +27,7 @@ def update_grid():
     for i in range(80):
         for j in range(80):
             neighbor = 0
-            for dx, dy in case:
+            for dy, dx in case:
                 ni = (i + dy) % 80
                 nj = (j + dx) % 80
                 if grid[ni][nj] == 1:
@@ -44,8 +44,8 @@ def update_grid():
                     new_grid[i][j] = 0
     grid = new_grid
     draw_grid()
-    window.after(40, update_grid)
+    window.after(100, update_grid)
 
 draw_grid()
-window.after(40, update_grid)
+window.after(100, update_grid)
 window.mainloop()
