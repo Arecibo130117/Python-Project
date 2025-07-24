@@ -71,7 +71,7 @@ def edit(event):
 
 def rotate_m(event):
     global rotX, rotY
-    rotX, rotY = (event.x - 400) / 30, (event.y - 400) / 30
+    rotX, rotY = (event.x - 400) / 80, (event.y - 400) / 80
 
 def mode_change():
     global mode1
