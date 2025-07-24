@@ -144,7 +144,7 @@ def draw3D():
                         (perspective*(x3/z3), perspective*(y3/z3)),
                     ]
                     color = temperature_to_color((u[i][j] + u[i+1][j] + u[i+1][j+1] + u[i][j+1])/4)
-                    canvas.create_polygon(pts, outline=color)
+                    canvas.create_polygon(pts, outline=color, fill='')
     window.after(20, draw3D)
 
 mode = tk.Button(window, text="Hot", font=("Arial",30), command=mode_change, fg="red", background="black")
