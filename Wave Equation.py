@@ -13,7 +13,7 @@ canvas.place(x=100, y=100)
 N = 50
 clickR = 10
 dt = 0.01
-c = 300
+c = 385
 h = 600/(N-1)
 u = [[0 for _ in range(N+2)]for _ in range(N+2)]
 u_new=copy.deepcopy(u)
@@ -22,7 +22,7 @@ mx, my = 0, 0
 mode1 = 1
 step=0
 rotX, rotY = 0, 0
-perspective = 385
+perspective = 500
 
 def temperature_to_color(value, vmin=0, vmax=100):
     ratio = (value+50 - vmin) / (vmax - vmin)
@@ -108,13 +108,13 @@ def draw():
         window.after(20, draw)
 
 def rotate(i,j,z):
-    x = (i - N/2) * 800/(N-1)
-    y = (j - N/2) * 800/(N-1)
+    x = (i - N/2) * 200/(N-1)
+    y = (j - N/2) * 200/(N-1)
     Xrot = (math.cos(rotX) * x) - (math.sin(rotX) * z)
     Zrot = (math.sin(rotX) * x) + (math.cos(rotX) * z)
     Yrot = (math.cos(rotY) * y) - (math.sin(rotY) * Zrot)
     Zrot = (math.sin(rotY) * y) + (math.cos(rotY) * Zrot)
-    return Xrot+400, Yrot+400, Zrot+400
+    return Xrot+200, Yrot+200, Zrot+250
 
 def wave_calculate():
     global u_new, u, u_prev
