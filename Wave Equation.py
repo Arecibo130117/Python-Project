@@ -22,7 +22,7 @@ mx, my = 0, 0
 mode1 = 1
 step=0
 rotX, rotY = 0, 0
-perspective = 400
+perspective = 385
 
 def temperature_to_color(value, vmin=0, vmax=100):
     ratio = (value+50 - vmin) / (vmax - vmin)
@@ -108,8 +108,8 @@ def draw():
         window.after(20, draw)
 
 def rotate(i,j,z):
-    x = (i - N/2) * h
-    y = (j - N/2) * h
+    x = (i - N/2) * 800/(N-1)
+    y = (j - N/2) * 800/(N-1)
     Xrot = (math.cos(rotX) * x) - (math.sin(rotX) * z)
     Zrot = (math.sin(rotX) * x) + (math.cos(rotX) * z)
     Yrot = (math.cos(rotY) * y) - (math.sin(rotY) * Zrot)
