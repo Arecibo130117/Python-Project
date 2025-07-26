@@ -23,22 +23,14 @@ def project():
     global u, u_new
     for i in range(1, N+1):
         for j in range(1, N+1):
-            if j == 1:
-                u[j-1][i] = u[j][i]      # 위쪽 경계
-            if j == N:
-                u[j+1][i] = u[j][i]      # 아래쪽 경계
-            if i == 1:
-                u[j][i-1] = u[j][i]      # 왼쪽 경계
-            if i == N:
-                u[j][i+1] = u[j][i]      # 오른쪽 경계
             
             u_new[j][i] = u[j][i] + r * (
                 u[j+1][i] + u[j-1][i] + u[j][i+1] + u[j][i-1] - 4*u[j][i]
             )
     u = u_new
     
-def temperature_to_color(value, vmin=0, vmax=100): #색 변환은 gemini가 해줌
-    ratio = (value - vmin) / (vmax - vmin)
+def temperature_to_color(value, vmin=0, vmax=100):
+    ratio = (value+50 - vmin) / (vmax - vmin)
     ratio = max(0.0, min(1.0, ratio)) 
 
     red = 0
@@ -89,7 +81,7 @@ def update():
             x2 = (j) * (800/N)
             y1 = (i-1) * (800/N)
             y2 = (i) * (800/N)
-            color = temperature_to_color(u[j][i]+50)
+            color = temperature_to_color(u[j][i])
             canvas.create_rectangle(x1, y1, x2, y2, fill=color, outline="")
     window.after(20, update)
     
