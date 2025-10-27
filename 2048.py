@@ -9,7 +9,7 @@ MoveCnt = 0
 Game = [[-1] + [0] * N + [-1] for _ in range(N)] #-1로 패딩
 Game.insert(0, [-1] * (N + 2)) 
 Game.append([-1] * (N + 2))
-Pgame = copy.deepcopy(Game)
+Pgame = []
 
 def PlaceTile(): #타일 배치 함수
     whitePlace = []
@@ -26,7 +26,7 @@ def PlaceTile(): #타일 배치 함수
 
 def move(mode: str): #타일 움직이기 함수
     global MoveCnt, Score, Pgame
-    
+    colided = [[False] * (N + 2) for _ in range(N + 2)]
     '''
     탐색 인덱스 저장용 변수들
     '''
@@ -51,8 +51,9 @@ def move(mode: str): #타일 움직이기 함수
                     y, x = i + nY, j + nX
                     
                     if not Game[y][x] == 0:
-                        if Game[y][x] == myCell: #같은 수끼리 만나면 점수 더하고 셀 바꾸기
+                        if Game[y][x] == myCell and not colided[y][x]: #같은 수끼리 만나면 점수 더하고 셀 바꾸기. 단 이전에 병합된거면 넘기기.
                             Score += myCell * 2 
+                            colided[y][x] = True
                             Game[y][x] = myCell * 2
                         else:
                             Game[i + preY][j + preX] = myCell #아니면 이전 자리로 되돌아가기
@@ -75,7 +76,7 @@ def move(mode: str): #타일 움직이기 함수
         PlaceTile()
         Pgame = copy.deepcopy(Game)
 
-def CheckGameOver() -> bool: #게임오버 판별
+def CheckGameOver() -> bool: #게임오버 판정
     dx = [0, 0, 1, -1]
     dy = [1, -1, 0, 0]
     for i in range(1, N + 1):
@@ -92,6 +93,7 @@ def CheckGameOver() -> bool: #게임오버 판별
     
     return True
 
+#2048 타일 색 그대로 가져 옴
 colors = {
     "background": "#FAF8EF",
     "grid": "#BBADA0",
@@ -110,19 +112,22 @@ colors = {
     "4096": "#3C3A32"
 }
 
+'''
+tkinter 창과 canvas 등 기본적인 gui 라이브러리 사용함
+'''
 window = tk.Tk()
 window.resizable(False, False)
 window.geometry('500x550')
 window.title('2048')
 window.config(background= colors["background"])
-LabelScore = tk.Label(window, text= 'Move : 0', fg= "#776e65", bg= colors["background"], font=("Helvetica", 26, "bold"))
+LabelScore = tk.Label(window, text= 'Score : 0', fg= "#776e65", bg= colors["background"], font=("Helvetica", 26, "bold"))
 LabelScore.place(x = 30, y = 20)
 LabelMove = tk.Label(window, text= 'Move : 0', fg= "#776e65", bg= colors["background"], font=("Helvetica", 26, "bold"))
 LabelMove.place(x = 280, y = 20)
 canvas = tk.Canvas(window, width= 440, height= 440, background= colors["grid"])
 canvas.place(x= 29, y= 70)
 
-def Game2048_ui():
+def Game2048_ui(): #ui 구성
     canvas.delete('all')
     k = 12
     nx, ny = 0, k
@@ -139,6 +144,7 @@ def Game2048_ui():
 
 PlaceTile()
 PlaceTile()
+Pgame = copy.deepcopy(Game)
 def main():
     LabelScore.config(text= f'Score : {Score}')
     LabelMove.config(text= f'Move : {MoveCnt}')
@@ -147,8 +153,8 @@ def main():
     window.bind("<a>", lambda e: move('left'))
     window.bind("<d>", lambda e: move('right'))
     Game2048_ui()
-    if CheckGameOver():
-        canvas.create_rectangle(0, 0, 500, 550, fill='black', stipple='gray50')
+    if CheckGameOver(): #게임오버 창 띄우기
+        canvas.create_rectangle(0, 0, 440, 440, fill='black', stipple='gray50')
         canvas.create_text(220, 160, text= 'Game Over', font= ("Helvetica", 36, "bold"), fill= "#FFFFFF")
         canvas.create_text(220, 250, text= f'Score : {Score}  Move : {MoveCnt}', font= ("Helvetica", 17, "bold"), fill= "#FFFFFF")
         return
@@ -157,4 +163,5 @@ def main():
     window.after(20, main)
 
 main()
+
 window.mainloop()
